@@ -63,7 +63,7 @@ class Score
     File.open($file_path) do |j|
       @scores = JSON.load(j)
     end
-    return false if num < 0 || num > @scores.length
+    return false if num <= 0 || num > @scores.length
     @scores.delete_at(num - 1)
     File.open($file_path, 'w') do |j|
       JSON.dump(@scores, j)
