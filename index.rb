@@ -52,7 +52,6 @@ class Score
     end
   end
 
-
   def self.all
     File.open($file_path) do |j|
       return JSON.load(j)
