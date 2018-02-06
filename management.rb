@@ -2,19 +2,22 @@ require './score'
 
 class Management
   def create
+    puts '>please enter the person'
+    person = STDIN.gets.chomp
+    return puts '>invalid input: should not be blank' if person.strip.empty?
     puts '>please enter the score'
-    score = STDIN.gets.chomp
-    return puts '>invalid input: not a number' if score.to_i.to_s != score.to_s
-    return puts '>invalid input: less than 100' if score.to_i > 100
-    return puts '>invalid input: more than 0' if score.to_i < 0
-    Score.new(score.to_i).save
+    value = STDIN.gets.chomp
+    return puts '>invalid input: not a number' if value.to_i.to_s != value.to_s
+    return puts '>invalid input: less than 100' if value.to_i > 100
+    return puts '>invalid input: more than 0' if value.to_i < 0
+    Score.new(person, value.to_i).save
     puts '>Successfully created score'
   end
 
   def read
     puts '>Show all score'
     Score.all.each_with_index do |score, i|
-      puts "#{i + 1}.#{score}"
+      puts "#{i + 1}.#{score['person']},#{score['value']}"
     end
   end
 

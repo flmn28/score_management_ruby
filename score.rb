@@ -1,15 +1,16 @@
 class Score
-  attr_accessor :score
+  attr_accessor :person, :value
 
-  def initialize(score)
-    @score = score
+  def initialize(person, value)
+    @person = person
+    @value = value
   end
 
   def save
     File.open($file_path) do |j|
       @scores = JSON.load(j)
     end
-    @scores << @score
+    @scores << {'person': @person, 'value': @value}
     File.open($file_path, 'w') do |j|
       JSON.dump(@scores, j)
     end
@@ -37,6 +38,6 @@ class Score
     File.open($file_path) do |j|
       @scores = JSON.load(j)
     end
-    return @scores.inject(0.0){ |sum,i| sum += i } / @scores.length
+    return @scores.inject(0.0){ |sum,score| sum += score['value'] } / @scores.length
   end
 end
