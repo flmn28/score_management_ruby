@@ -6,7 +6,7 @@ $file_path = 'scores.json'
 unless File.exist?($file_path)
   File.open($file_path, 'w') do |j|
     JSON.dump([], j)
-  end 
+  end
 end
 
 case ARGV[0]
