@@ -1,5 +1,5 @@
 require 'json'
-require './management'
+require './src/app/management'
 
 $file_path = 'scores.json'
 

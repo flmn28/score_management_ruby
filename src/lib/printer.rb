@@ -1,4 +1,4 @@
-class Print
+class Printer
   def self.normal(message)
     puts ">#{message}"
   end
