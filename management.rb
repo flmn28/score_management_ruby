@@ -22,6 +22,13 @@ class Management
     end
   end
 
+  def read_as_html
+    Print.normal('<h2>Show all score</h2>')
+    Score.all.each_with_index do |score, i|
+      puts "<p>#{i + 1}.#{score['person']},#{score['value']}</p>"
+    end
+  end
+
   def delete
     Print.normal('please enter delete line number')
     num =  STDIN.gets.chomp
@@ -29,7 +36,7 @@ class Management
     if Score.delete(num.to_i)
       Print.success('Successfully deleted score')
     else
-      Print.invalid('line number is wrong')
+      Print.invalid('wrong number')
     end
   end
 

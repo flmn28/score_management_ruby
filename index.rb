@@ -10,8 +10,8 @@ unless File.exist?($file_path)
 end
 
 case ARGV[0]
-when 'create', 'read', 'delete', 'average'
+when 'create', 'read', 'delete', 'average', 'read_as_html'
   Management.new.send(ARGV[0])
 else
-  puts ">invalid command: #{ARGV[0]} is wrong argument"
+  puts ">invalid command: wrong argument"
 end
