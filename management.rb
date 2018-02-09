@@ -1,16 +1,17 @@
 require './score'
 require './print'
+require './validator'
 
 class Management
   def create
     Print.normal('please enter the person')
     person = STDIN.gets.chomp
-    return Print.invalid('should not be blank') if person.strip.empty?
+    err = Validator.check_person(person)
+    return Print.invalid(err) if err
     Print.normal('please enter the score')
     value = STDIN.gets.chomp
-    return Print.invalid('not a number') if value.to_i.to_s != value.to_s
-    return Print.invalid('less than 100') if value.to_i > 100
-    return Print.invalid('more than 0') if value.to_i < 0
+    err = Validator.check_value(value)
+    return Print.invalid(err) if err
     Score.new(person, value.to_i).save
     Print.success('Successfully created score')
   end
@@ -32,7 +33,8 @@ class Management
   def delete
     Print.normal('please enter delete line number')
     num =  STDIN.gets.chomp
-    return Print.invalid('not a number') if num.to_i.to_s != num.to_s
+    err = Validator.check_delete_line(num)
+    return Print.invalid(err) if err
     if Score.delete(num.to_i)
       Print.success('Successfully deleted score')
     else
