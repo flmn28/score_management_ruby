@@ -1,5 +1,6 @@
 require 'json'
 require './src/app/management'
+require './src/lib/printer'
 
 $file_path = 'scores.json'
 
@@ -13,5 +14,5 @@ case ARGV[0]
 when 'create', 'read', 'delete', 'average', 'read_as_html'
   Management.new.send(ARGV[0])
 else
-  puts ">invalid command: wrong argument"
+  Printer.invalid('wrong argument')
 end

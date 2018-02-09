@@ -11,20 +11,20 @@ class Management
     value = input('value')
     return if value.nil?
     Score.new(person, value.to_i).save
-    Printer.success('Successfully created score')
+    Printer.success('created score')
   end
 
   def read
     Printer.normal('Show all score')
     Score.all.each_with_index do |score, i|
-      puts "#{i + 1}.#{score['person']},#{score['value']}"
+      Printer.raw("#{read_template(score, i)}")
     end
   end
 
   def read_as_html
     Printer.normal('<h2>Show all score</h2>')
     Score.all.each_with_index do |score, i|
-      puts "<p>#{i + 1}.#{score['person']},#{score['value']}</p>"
+      Printer.raw("<p>#{read_template(score, i)}</p>")
     end
   end
 
@@ -32,7 +32,7 @@ class Management
     Printer.normal('please enter delete line number')
     num = input('delete_line')
     return if num.nil?
-    Score.delete(num.to_i) ? Printer.success('Successfully deleted score') : Printer.invalid('wrong number')
+    Score.delete(num.to_i) ? Printer.success('deleted score') : Printer.invalid('wrong number')
   end
 
   def average
@@ -48,5 +48,9 @@ class Management
         return nil
       end
       return input
+    end
+
+    def read_template(score, i)
+      "#{i + 1}.#{score['person']},#{score['value']}"
     end
 end
