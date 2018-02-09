@@ -5,13 +5,11 @@ require './src/lib/validator'
 class Management
   def create
     Printer.normal('please enter the person')
-    person = STDIN.gets.chomp
-    err = Validator.check_person(person)
-    return Printer.invalid(err) if err
+    person = input('person')
+    return if person.nil?
     Printer.normal('please enter the score')
-    value = STDIN.gets.chomp
-    err = Validator.check_value(value)
-    return Printer.invalid(err) if err
+    value = input('value')
+    return if value.nil?
     Score.new(person, value.to_i).save
     Printer.success('Successfully created score')
   end
@@ -32,17 +30,23 @@ class Management
 
   def delete
     Printer.normal('please enter delete line number')
-    num =  STDIN.gets.chomp
-    err = Validator.check_delete_line(num)
-    return Printer.invalid(err) if err
-    if Score.delete(num.to_i)
-      Printer.success('Successfully deleted score')
-    else
-      Printer.invalid('wrong number')
-    end
+    num = input('delete_line')
+    return if num.nil?
+    Score.delete(num.to_i) ? Printer.success('Successfully deleted score') : Printer.invalid('wrong number')
   end
 
   def average
     Printer.normal("Score Average: #{Score.average}")
   end
+
+  private
+    def input(type)
+      input = STDIN.gets.chomp
+      err = Validator.send("check_#{type}", input)
+      if err
+        Printer.invalid(err)
+        return nil
+      end
+      return input
+    end
 end
