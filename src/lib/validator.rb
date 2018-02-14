@@ -12,6 +12,7 @@ class Validator
   end
 
   def self.check_delete_line(num)
+    return 'should not be blank' if num.strip.empty?
     return 'not a number' if num.to_i.to_s != num.to_s
     return nil
   end
