@@ -7,12 +7,10 @@ class Score
   end
 
   def save
-    File.open($file_path) do |j|
-      @scores = JSON.load(j)
-    end
-    @scores << {'person': @person, 'value': @value}
+    scores = self.class.all
+    scores << {'person': @person, 'value': @value}
     File.open($file_path, 'w') do |j|
-      JSON.dump(@scores, j)
+      JSON.dump(scores, j)
     end
   end
 
@@ -23,21 +21,17 @@ class Score
   end
 
   def self.delete(num)
-    File.open($file_path) do |j|
-      @scores = JSON.load(j)
-    end
-    return false if num <= 0 || num > @scores.length
-    @scores.delete_at(num - 1)
+    scores = self.all
+    return false if num <= 0 || num > scores.length
+    scores.delete_at(num - 1)
     File.open($file_path, 'w') do |j|
-      JSON.dump(@scores, j)
+      JSON.dump(scores, j)
     end
     return true
   end
 
   def self.average
-    File.open($file_path) do |j|
-      @scores = JSON.load(j)
-    end
-    return @scores.inject(0.0){ |sum,score| sum += score['value'] } / @scores.length
+    scores = self.all
+    return scores.inject(0.0){ |sum,score| sum += score['value'] } / scores.length
   end
 end
