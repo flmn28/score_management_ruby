@@ -9,9 +9,7 @@ class Score
   def save
     scores = self.class.all
     scores << {'person': @person, 'value': @value}
-    File.open($file_path, 'w') do |j|
-      JSON.dump(scores, j)
-    end
+    self.class.save(scores)
   end
 
   def self.all
@@ -24,9 +22,7 @@ class Score
     scores = self.all
     return false if num <= 0 || num > scores.length
     scores.delete_at(num - 1)
-    File.open($file_path, 'w') do |j|
-      JSON.dump(scores, j)
-    end
+    self.save(scores)
     return true
   end
 
@@ -34,4 +30,11 @@ class Score
     scores = self.all
     return scores.inject(0.0){ |sum,score| sum += score['value'] } / scores.length
   end
+
+  private
+    def self.save(scores)
+      File.open($file_path, 'w') do |j|
+        JSON.dump(scores, j)
+      end
+    end
 end
